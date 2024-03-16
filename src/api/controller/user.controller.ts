@@ -11,6 +11,9 @@ export async function Adduser(
 ){
     
       var username = req.body.username;
+      var nom = req.body.nom;
+      var prenoms = req.body.prenoms;
+      var raisonSociale = req.body.raisonSociale;
       var password = req.body.password;
       var idrole = req.body.idrole;
       if(username == null || password == null || idrole == null){
@@ -24,6 +27,9 @@ export async function Adduser(
             "password":bcryptedPassword,
             "username":username,
             "idrole": idrole,
+            "nom":nom,
+            "prenoms":prenoms,
+            "raisonSociale": raisonSociale,
           };
           createuser(value)
           .then(function(newUser:any){

@@ -1,21 +1,22 @@
-import QuartiersModel from "./quartiers.model";
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../utils/database/sequelize";
+import DepartementsModel from "./departements.model";
+import PersonnesModel from "./personnes.model";
 
-interface CommunesAttributes {
+interface RegionsAttributes {
   id: number;
-  commune: string;
+  region: string;
 }
 
-class CommunesModel
-  extends Model<CommunesAttributes>
-  implements CommunesAttributes
+class RegionsModel
+  extends Model<RegionsAttributes>
+  implements RegionsAttributes
 {
   public id!: number;
-  public commune!: string;
+  public region!: string;
 }
 
-CommunesModel.init(
+RegionsModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,7 +24,7 @@ CommunesModel.init(
       autoIncrement: true,
       allowNull: false,
     },
-    commune: {
+    region: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
@@ -34,24 +35,28 @@ CommunesModel.init(
   },
   {
     sequelize,
-    modelName: "communes",
+    modelName: "regions",
     freezeTableName: true,
     timestamps: true,
   }
 );
-CommunesModel.hasMany(QuartiersModel, {
+RegionsModel.hasMany(DepartementsModel, {
   foreignKey: {
-    name: "idCommunes",
+    name: "region_id",
     allowNull: false,
   },
 });
 
-QuartiersModel.belongsTo(CommunesModel, {
+DepartementsModel.belongsTo(RegionsModel, {
   foreignKey: {
-    name: "idCommunes",
+    name: "region_id",
     allowNull: false,
   },
 });
+
+RegionsModel.hasMany(PersonnesModel);
+  
+  PersonnesModel.belongsTo(RegionsModel);
 
 // Ensure the table is created and ready to use
 // (async () => {
@@ -59,4 +64,4 @@ QuartiersModel.belongsTo(CommunesModel, {
 //   // Additional code for initialization, if needed
 // })();
 
-export default CommunesModel;
+export default RegionsModel;

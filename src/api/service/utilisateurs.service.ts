@@ -32,7 +32,13 @@ export async function finduse(value:any) {
 }
 export async function getallusers() {
 
-        const user = await UtilisateursModel.findAll(); 
+        const user = await RolesModel.findAll({
+            attributes: ["libelle"],
+            include:[{
+                model: UtilisateursModel,
+                attributes: ["id","username","raisonSociale","nom","prenoms"]
+            }]
+        }); 
         return user;
 
      

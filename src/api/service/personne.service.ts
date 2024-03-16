@@ -2,6 +2,7 @@ import AvoirVulnerabilite from "../models/avoirvulnerabilite.model";
 import CommunesModel from "../models/communes.model";
 import PersonnesModel from "../models/personnes.model";
 import QuartiersModel from "../models/quartiers.model";
+import RegionsModel from "../models/region.model";
 import ResidenceModel from "../models/residence.model";
 import VulnerabiliteModel from "../models/vulnerabilite.model";
 
@@ -66,6 +67,9 @@ export async function getPersonnebyId(id: number) {
                     model:VulnerabiliteModel
                 }]
             },
+            {
+                model: RegionsModel
+            },
 
             {
                 model: ResidenceModel,
@@ -85,7 +89,10 @@ export async function getPersonnebyId(id: number) {
                 model: PersonnesModel,
                 as: 'Children'
             },
-        
+            {
+                model: PersonnesModel,
+                as: 'Parent'
+            },
         ],
         
     }

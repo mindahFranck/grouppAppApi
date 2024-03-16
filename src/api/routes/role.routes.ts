@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { AddRole, deleteRole, getAllRole, getRoleById, updateRole } from "../controller/role.interface";
+import { AddRole, deleteRole, getAllRole, getRoleById, updateRole } from "../controller/role.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
 
 function role(app: Express) {

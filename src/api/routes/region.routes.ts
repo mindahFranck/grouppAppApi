@@ -1,32 +1,32 @@
 import { Express } from "express";
-import { getAllCommunes, getCommunesById, updateCommunes, AddCommunes, deleteCommunes, importCommunes } from "../controller/communes.controller";
 import multer from 'multer';
+import { getAllRegions, getRegionsById, updateRegions, AddRegions, importRegions, deleteRegions } from "../controller/region.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
 
 const upload = multer();
-function communes(app: Express) {
+function regions(app: Express) {
 
     /**
      * @swagger
-     * '/api/communes':
+     * '/api/regions':
      *  get:
      *     tags:
-     *      - communes
-     *     descriptions: Get all communes
+     *      - regions
+     *     descriptions: Get all regions
      *     responses:
      *         200:
-     *             description: all communes
+     *             description: all regions
      */
-    app.get('/api/communes', getAllCommunes)
+    app.get('/api/regions', getAllRegions)
 
 
     /**
     * @swagger
-    * '/api/communes/{id}':
+    * '/api/regions/{id}':
     *  get:
     *     tags:
-    *      - communes
-    *     descriptions: Get communes by Id
+    *      - regions
+    *     descriptions: Get regions by Id
     *     parameters:
     *       - in: path
     *         name: id
@@ -36,18 +36,18 @@ function communes(app: Express) {
     *          type: string
     *     responses:
     *         200:
-    *             description: Get communes by Id
+    *             description: Get regions by Id
     */
-    app.get('/api/communes/:id', getCommunesById)
+    app.get('/api/regions/:id', getRegionsById)
 
     /**
       * @swagger
-      * '/api/communes/{id}':
+      * '/api/regions/{id}':
       *  put:
       *     tags:
-      *     - communes
-      *     summary: Update  communes
-      *     description: Update communes
+      *     - regions
+      *     summary: Update  regions
+      *     description: Update regions
       *     parameters:
       *          - in: path
       *            name: id
@@ -60,53 +60,53 @@ function communes(app: Express) {
       *      content:
       *        application/json:
       *           schema:
-      *              $ref: '#/components/schemas/CreateCommunesInput'
+      *              $ref: '#/components/schemas/CreateregionsInput'
       *     responses:
       *      200:
       *        description: Success
       *        content:
       *          application/json:
       *            schema:
-      *              $ref: '#/components/schemas/CreateCommunesResponse'
+      *              $ref: '#/components/schemas/CreateregionsResponse'
       *      409:
       *        description: Conflict
       *      400:
       *        description: Bad request
       */
-    app.put('/api/communes/:id', updateCommunes)
+    app.put('/api/regions/:id', updateRegions)
     /**
 * @swagger
-* '/api/communes':
+* '/api/regions':
 *  post:
 *     tags:
-*     - communes
-*     summary: Register communes
+*     - regions
+*     summary: Register regions
 *     requestBody:
 *      required: true
 *      content:
 *        application/json:
 *           schema:
-*              $ref: '#/components/schemas/CreateCommunesInput'
+*              $ref: '#/components/schemas/CreateregionsInput'
 *     responses:
 *      200:
 *        description: Success
 *        content:
 *          application/json:
 *            schema:
-*              $ref: '#/components/schemas/CreateCommunesResponse'
+*              $ref: '#/components/schemas/CreateregionsResponse'
 *      409:
 *        description: Conflict
 *      400:
 *        description: Bad request
 */
-    app.post('/api/communes', AddCommunes)
+    app.post('/api/regions', AddRegions)
 
 
 
 
 /**
  * @swagger
- * /api/upload/communes:
+ * /api/upload/regions:
  *   post:
  *     summary: Upload a file
  *     description: Endpoint for uploading a file.
@@ -138,14 +138,14 @@ function communes(app: Express) {
  *             example:
  *               error: Internal server error
  */
-app.post('/api/upload/communes',upload.single('file'), importCommunes)
+app.post('/api/upload/regions',upload.single('file'), importRegions)
     /**
      * @swagger
-     * '/api/communes/{id}':
+     * '/api/regions/{id}':
      *  delete:
      *     tags:
-     *      - communes
-     *     descriptions: Delete communes
+     *      - regions
+     *     descriptions: Delete regions
      *     parameters:
      *       - in: path
      *         name: id
@@ -155,9 +155,9 @@ app.post('/api/upload/communes',upload.single('file'), importCommunes)
      *         type: string
      *     responses:
      *         200:
-     *             description: Delete communes
+     *             description: Delete regions
      */
-    app.delete('/api/communes/:id', deleteCommunes)
+    app.delete('/api/regions/:id', deleteRegions)
 
 }
-export default communes;
+export default regions;

@@ -80,9 +80,31 @@ export async function getPersonneById(
   req: Request,
   res: Response
 ) {
+  let result = 0;
 
   getPersonnebyId(parseInt(req.params.id))
-    .then(function (Personne) {
+    .then(function (Personne: any) {
+      if(!Personne.is_cni){
+        result ++;
+      }
+      if(!Personne.is_actenaissance){
+        result ++;
+
+      }
+      if(Personne.is_autochtone){
+        result ++;
+
+      }
+
+      if(!Personne.is_handicape && Personne?.avoirvulnerabilites.length){
+        result = result + 1 + Personne.avoirvulnerabilites.length;
+
+      }
+
+      console.log(result, "pourcentage");
+
+
+
       return res.status(201).json(Personne)
     })
     .catch(function (err) {

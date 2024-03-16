@@ -3,9 +3,7 @@ import express from "express";
 
 import swaggerDocs from "./utils/swagger";
 import users from "./routes/users.routes";
-import agents from "./routes/agents.routes";
 import communes from "./routes/communes.routes";
-import ong from "./routes/ong.routes";
 import personnes from "./routes/personnes.routes";
 import quartiers from "./routes/quartiers.routes";
 import residence from "./routes/residence.routes";
@@ -13,6 +11,8 @@ import vulnerabilite from "./routes/vulnerabilite.routes";
 import role from "./routes/role.routes";
 import avoir from "./routes/avoir.routes";
 import env from "../../config/env";
+import regions from "./routes/region.routes";
+import departements from "./routes/departement.route";
 
 const app = express();
 
@@ -29,9 +29,10 @@ app.use(
 // agents(app);
 avoir(app);
 communes(app);
-ong(app);
 personnes(app);
 quartiers(app);
+departements(app);
+regions(app);
 residence(app);
 role(app);
 vulnerabilite(app);

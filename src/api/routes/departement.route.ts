@@ -1,32 +1,32 @@
 import { Express } from "express";
-import { getAllCommunes, getCommunesById, updateCommunes, AddCommunes, deleteCommunes, importCommunes } from "../controller/communes.controller";
 import multer from 'multer';
+import { getAllDepartements, getDepartementsById, updateDepartements, AddDepartements, importDepartements, deleteDepartements } from "../controller/departement.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
 
 const upload = multer();
-function communes(app: Express) {
+function departements(app: Express) {
 
     /**
      * @swagger
-     * '/api/communes':
+     * '/api/departements':
      *  get:
      *     tags:
-     *      - communes
-     *     descriptions: Get all communes
+     *      - departements
+     *     descriptions: Get all departements
      *     responses:
      *         200:
-     *             description: all communes
+     *             description: all departements
      */
-    app.get('/api/communes', getAllCommunes)
+    app.get('/api/departements', getAllDepartements)
 
 
     /**
     * @swagger
-    * '/api/communes/{id}':
+    * '/api/departements/{id}':
     *  get:
     *     tags:
-    *      - communes
-    *     descriptions: Get communes by Id
+    *      - departements
+    *     descriptions: Get departements by Id
     *     parameters:
     *       - in: path
     *         name: id
@@ -36,18 +36,18 @@ function communes(app: Express) {
     *          type: string
     *     responses:
     *         200:
-    *             description: Get communes by Id
+    *             description: Get departements by Id
     */
-    app.get('/api/communes/:id', getCommunesById)
+    app.get('/api/departements/:id', getDepartementsById)
 
     /**
       * @swagger
-      * '/api/communes/{id}':
+      * '/api/departements/{id}':
       *  put:
       *     tags:
-      *     - communes
-      *     summary: Update  communes
-      *     description: Update communes
+      *     - departements
+      *     summary: Update  departements
+      *     description: Update departements
       *     parameters:
       *          - in: path
       *            name: id
@@ -60,53 +60,53 @@ function communes(app: Express) {
       *      content:
       *        application/json:
       *           schema:
-      *              $ref: '#/components/schemas/CreateCommunesInput'
+      *              $ref: '#/components/schemas/CreatedepartementsInput'
       *     responses:
       *      200:
       *        description: Success
       *        content:
       *          application/json:
       *            schema:
-      *              $ref: '#/components/schemas/CreateCommunesResponse'
+      *              $ref: '#/components/schemas/CreatedepartementsResponse'
       *      409:
       *        description: Conflict
       *      400:
       *        description: Bad request
       */
-    app.put('/api/communes/:id', updateCommunes)
+    app.put('/api/departements/:id', updateDepartements)
     /**
 * @swagger
-* '/api/communes':
+* '/api/departements':
 *  post:
 *     tags:
-*     - communes
-*     summary: Register communes
+*     - departements
+*     summary: Register departements
 *     requestBody:
 *      required: true
 *      content:
 *        application/json:
 *           schema:
-*              $ref: '#/components/schemas/CreateCommunesInput'
+*              $ref: '#/components/schemas/CreatedepartementsInput'
 *     responses:
 *      200:
 *        description: Success
 *        content:
 *          application/json:
 *            schema:
-*              $ref: '#/components/schemas/CreateCommunesResponse'
+*              $ref: '#/components/schemas/CreatedepartementsResponse'
 *      409:
 *        description: Conflict
 *      400:
 *        description: Bad request
 */
-    app.post('/api/communes', AddCommunes)
+    app.post('/api/departements', AddDepartements)
 
 
 
 
 /**
  * @swagger
- * /api/upload/communes:
+ * /api/upload/departements:
  *   post:
  *     summary: Upload a file
  *     description: Endpoint for uploading a file.
@@ -138,14 +138,14 @@ function communes(app: Express) {
  *             example:
  *               error: Internal server error
  */
-app.post('/api/upload/communes',upload.single('file'), importCommunes)
+app.post('/api/upload/departements',upload.single('file'), importDepartements)
     /**
      * @swagger
-     * '/api/communes/{id}':
+     * '/api/departements/{id}':
      *  delete:
      *     tags:
-     *      - communes
-     *     descriptions: Delete communes
+     *      - departements
+     *     descriptions: Delete departements
      *     parameters:
      *       - in: path
      *         name: id
@@ -155,9 +155,9 @@ app.post('/api/upload/communes',upload.single('file'), importCommunes)
      *         type: string
      *     responses:
      *         200:
-     *             description: Delete communes
+     *             description: Delete departements
      */
-    app.delete('/api/communes/:id', deleteCommunes)
+    app.delete('/api/departements/:id', deleteDepartements)
 
 }
-export default communes;
+export default departements;

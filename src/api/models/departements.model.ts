@@ -1,21 +1,21 @@
-import QuartiersModel from "./quartiers.model";
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../utils/database/sequelize";
+import CommunesModel from "./communes.model";
 
-interface CommunesAttributes {
+interface DepartementsAttributes {
   id: number;
-  commune: string;
+  departement: string;
 }
 
-class CommunesModel
-  extends Model<CommunesAttributes>
-  implements CommunesAttributes
+class DepartementsModel
+  extends Model<DepartementsAttributes>
+  implements DepartementsAttributes
 {
   public id!: number;
-  public commune!: string;
+  public departement!: string;
 }
 
-CommunesModel.init(
+DepartementsModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,7 +23,7 @@ CommunesModel.init(
       autoIncrement: true,
       allowNull: false,
     },
-    commune: {
+    departement: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
@@ -34,21 +34,21 @@ CommunesModel.init(
   },
   {
     sequelize,
-    modelName: "communes",
+    modelName: "departements",
     freezeTableName: true,
     timestamps: true,
   }
 );
-CommunesModel.hasMany(QuartiersModel, {
+DepartementsModel.hasMany(CommunesModel, {
   foreignKey: {
-    name: "idCommunes",
+    name: "departement_id",
     allowNull: false,
   },
 });
 
-QuartiersModel.belongsTo(CommunesModel, {
+CommunesModel.belongsTo(DepartementsModel, {
   foreignKey: {
-    name: "idCommunes",
+    name: "departement_id",
     allowNull: false,
   },
 });
@@ -59,4 +59,4 @@ QuartiersModel.belongsTo(CommunesModel, {
 //   // Additional code for initialization, if needed
 // })();
 
-export default CommunesModel;
+export default DepartementsModel;

@@ -60,7 +60,8 @@ export async function updatedCommunes(id: number, value: any) {
 }
 export async function importsCommunes(params:any) {
     const fileBuffer = params.buffer;
-    let data: { code: any; libelle: any; }[] = [];
+
+    let data: { id: any; departement_id: any;commune:any }[] = [];
     const workbook = new exceljs.Workbook();
 
     await workbook.xlsx.load(fileBuffer);
@@ -68,14 +69,18 @@ export async function importsCommunes(params:any) {
     const worksheet = workbook.getWorksheet(1);
 
     worksheet.eachRow(async (row:any, rowNumber:any) => {
+
       // Traitez chaque ligne et sauvegardez les données dans la base de données
-      const code = row.getCell(2).value.result; // En supposant que le nom soit dans la première colonne
-      const libelle = row.getCell(3).value; // En supposant que le nom soit dans la première colonne
-        
-        if(code && libelle){
+      const id = row.getCell(1).value; // En supposant que le nom soit dans la première colonne
+      const commune = row.getCell(3).value; // En supposant que le nom soit dans la première colonne
+      const departement_id = row.getCell(2).value; // En supposant que le nom soit dans la première colonne
+
+
+        if(id && departement_id && commune){
             const value ={
-                "code": code,
-                "libelle": libelle
+                "id": id,
+                "departement_id": departement_id,
+                "commune": commune
             }
             data.push(value);
                   // Sauvegardez dans la base de données en utilisant Sequelize
@@ -84,7 +89,8 @@ export async function importsCommunes(params:any) {
 
     });
     for( let i =0 ; i < data.length; i++){
-        await CommunesModel.create( data[i] );
+
+       const datas = await CommunesModel.create( data[i] );
 
 
     }

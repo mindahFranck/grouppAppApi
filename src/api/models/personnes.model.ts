@@ -25,10 +25,6 @@ PersonnesModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    region: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     sexe: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -61,7 +57,7 @@ PersonnesModel.init(
   },
   {
     sequelize,
-    modelName: "PersonnesModel", // Utilisez un nom de modèle sans espaces ni caractères spéciaux
+    modelName: "personnesmodel", // Utilisez un nom de modèle sans espaces ni caractères spéciaux
     freezeTableName: true,
     timestamps: true,
   }
@@ -84,9 +80,9 @@ PersonnesModel.belongsTo(PersonnesModel, {
 PersonnesModel.hasMany(AvoirVulnerabilite, { foreignKey: "idPer" });
 AvoirVulnerabilite.belongsTo(PersonnesModel, { foreignKey: "idPer" });
 
-// (async () => {
-//   await sequelize.sync({ force: false });
-//   // Code here
-// })();
+(async () => {
+  await sequelize.sync({ force: false });
+  // Code here
+})();
 
 export default PersonnesModel;

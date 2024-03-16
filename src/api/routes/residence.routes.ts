@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { AddResidence, deleteResidence, getAllResidence, getResidenceById, updateResidence } from "../controller/residence.interface";
+import { AddResidence, deleteResidence, getAllResidence, getResidenceById, updateResidence } from "../controller/residence.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
 
 function residence(app: Express) {

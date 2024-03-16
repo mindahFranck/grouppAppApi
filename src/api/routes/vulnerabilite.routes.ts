@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { AddVulnerabilite, deleteVulnerabilite, getAllVulnerabilite, getVulnerabiliteById, updateVulnerabilite } from "../controller/vulnerabilite";
+import { AddVulnerabilite, deleteVulnerabilite, getAllVulnerabilite, getVulnerabiliteById, updateVulnerabilite } from "../controller/vulnerabilite.interface";
 const authentificationMiddleware = require("../middleware/authVerification");
 const checkRole = require("../middleware/roleVerifications");
 function vulnerabilite(app: Express) {
@@ -15,7 +15,7 @@ function vulnerabilite(app: Express) {
      *         200:
      *             description: all vulnerabilite
      */
-    app.get('/api/vulnerabilite',authentificationMiddleware, checkRole(['user', 'admin']), getAllVulnerabilite)
+    app.get('/api/vulnerabilite',authentificationMiddleware, getAllVulnerabilite)
 
     /**
     * @swagger

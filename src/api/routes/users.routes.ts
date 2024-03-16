@@ -63,7 +63,7 @@ function users(app: Express){
    *      400:
    *        description: Bad request
    */
- app.post('/api/users',authentificationMiddleware, validateResource(createUserSchema), Adduser)
+ app.post('/api/users', validateResource(createUserSchema), Adduser)
       /**
    * @swagger
    * '/api/login/users':

@@ -4,24 +4,24 @@ import { number, object, string, TypeOf } from "zod";
  * @openapi
  * components:
  *  schemas:
- *    CreateCommunesInput:
+ *    CreatedepartementsInput:
  *      type: object
  *      required:
- *        - commune
- *        - departement_id
+ *        - departement
+ *        - region_id
  *      properties:
- *        commune:
+ *        departement:
  *          type: string
  *          default: code
- *        departement_id:
+ *        region_id:
  *          type: integer
  *          default: 1
- *    CreateCommunesResponse:
+ *    CreatedepartementsResponse:
  *      type: object
  *      properties:
- *        commune:
+ *        departement:
  *          type: string
- *        departement_id:
+ *        region_id:
  *          type: integer
  *        id:
  *          type: string
@@ -31,13 +31,13 @@ import { number, object, string, TypeOf } from "zod";
  *          type: string
  */
 
-export const CreateCommuneSchema = object({
+export const CreatedepartementsSchema = object({
   body: object({
-    commune: string({
-      required_error: "la commune est obligatoire",
+    departement: string({
+      required_error: "le departement est obligatoire",
     }),
-    departement_id: string({
-        required_error: "l'id du departement est obligatoire",
+    region_id: string({
+        required_error: "l'id de la region est obligatoire",
       }),
   })
 
