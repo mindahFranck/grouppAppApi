@@ -74,7 +74,7 @@ export async function importsCommunes(params:any) {
       const id = row.getCell(1).value; // En supposant que le nom soit dans la première colonne
       const commune = row.getCell(3).value; // En supposant que le nom soit dans la première colonne
       const departement_id = row.getCell(2).value; // En supposant que le nom soit dans la première colonne
-
+ 
 
         if(id && departement_id && commune){
             const value ={
