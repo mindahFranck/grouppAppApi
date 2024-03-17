@@ -88,11 +88,23 @@ export async function getPersonnebyId(id: number) {
             },
             {
                 model: PersonnesModel,
-                as: 'Children'
+                as: 'Children',
+                include: [
+                    {
+                        model: RegionsModel,
+
+                    }
+                ]
             },
             {
                 model: PersonnesModel,
-                as: 'Parent'
+                as: 'Parent',
+                include:[
+                    {
+                        model: RegionsModel,
+                        
+                    }
+                ]
             },
         ],
         
