@@ -33,10 +33,26 @@ export async function findAvoir(value: any) {
 
 export async function getallstate(){
     const data = [];
-    const personnes = await PersonnesModel.findAll();
-    const vulnerabilite = await VulnerabiliteModel.findAll();
-    const quartiers = await QuartiersModel.findAll();
-    const commune = await CommunesModel.findAll();
+    const personnes = await PersonnesModel.count();
+    const vulnerabilite = await VulnerabiliteModel.count();
+    const quartiers = await QuartiersModel.count();
+    const commune = await CommunesModel.count();
+    const residences = await ResidenceModel.count();
+    const residence:any = await ResidenceModel.findAll({
+        attributes: [
+            [sequelize.fn('SUM', sequelize.literal('(SELECT COUNT(*) FROM personnesmodel WHERE personnesmodel.idresidence = residence.id)')), 'total_personnes'],
+            [sequelize.fn('COUNT', sequelize.literal('(SELECT COUNT(*) FROM personnesmodel WHERE personnesmodel.idresidence = residence.id)')), 'nombre_residences']
+          ],
+          include: [{
+            model: PersonnesModel,
+            required: true 
+          }],
+          raw: true
+    })
+    const totalPersonnes = residence[0].total_personnes;
+    const nombreResidences = residence[0].nombre_residences;
+
+    const moyenne = totalPersonnes / nombreResidences;
     const lastInsertPerson = await PersonnesModel.findAll({
         order: [['createdAt', 'DESC']],
         limit: 5,
@@ -91,13 +107,15 @@ export async function getallstate(){
     }
     
     const state = {
-        "nbrePersonne": personnes.length,
-        "nbreCommune":commune.length,
-        "nbreVulnerabilite": vulnerabilite.length,
-        "nbreQuartiers":quartiers.length,
+        "nbrePersonne": personnes,
+        "nbreCommune": commune,
+        "nbreVulnerabilite": vulnerabilite,
+        "nbreQuartiers": quartiers,
         "dernierPersonneEnregistre": lastInsertPerson,
         "vulnerabiliteState": data,
-        "personnesParRegions":regions
+        "personnesParRegions":regions,
+        "moyenneDuNombreDePersonneParResidence": moyenne,
+        "nombreDeRidence": residences
 
     }
 

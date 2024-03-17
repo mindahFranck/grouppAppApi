@@ -19,6 +19,22 @@ import { object, string, TypeOf } from "zod";
  *        password:
  *          type: string
  *          default: stringPassword123
+ *    CreateUserInputFilter:
+ *      type: object
+ *      required:
+ *        - regionId
+ *        - departementId 
+ *        - communeId
+ *        - quartierId
+ *      properties:
+ *        regionId:
+ *          type: integer
+ *        departementId:
+ *          type: integer
+ *        communeId:
+ *          type: integer
+ *        quartierId:
+ *          type: integer
  *    CreateUserResponse:
  *      type: object
  *      properties:

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createPersonne, deletePersonneid, getPersonnebyId, getallPersonne, getallPersonneChefDeFamille, updatedPersonne } from "../service/personne.service";
+import { createPersonne, deletePersonneid, getPersonnebyId, getallPersonne, getallPersonneChefDeFamille, searchsFilter, updatedPersonne } from "../service/personne.service";
 import { createAvoir } from "../service/avoir.service";
 
 
@@ -100,15 +100,33 @@ export async function getPersonneById(
         result = result + 1 + Personne.avoirvulnerabilites.length;
 
       }
-
-      console.log(result, "pourcentage");
-
-
-
       return res.status(201).json(Personne)
     })
     .catch(function (err) {
       return res.status(500).json({ 'error': "impossible de retouner la liste des Personnes" })
+    })
+
+
+}
+
+
+export async function filter(
+  req: Request,
+  res: Response
+) {
+      // Récupérer les paramètres de requête
+       req.query;
+
+      // Construire les options de filtre
+      const filterOptions: any = req.query;
+  
+
+  searchsFilter(filterOptions)
+    .then(function (personnes) {
+      return res.status(201).json(personnes)
+    })
+    .catch(function (err) {
+      return res.status(500).json({ 'error': "impossible de retouner la liste des personnes", err })
     })
 
 

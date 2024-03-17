@@ -19,6 +19,10 @@ function users(app: Express){
   */
  app.get('/api/users', authentificationMiddleware,getUser)
 
+ 
+
+
+
   /**
   * @swagger
   * '/api/users/{id}':

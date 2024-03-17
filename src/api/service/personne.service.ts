@@ -1,5 +1,6 @@
 import AvoirVulnerabilite from "../models/avoirvulnerabilite.model";
 import CommunesModel from "../models/communes.model";
+import DepartementsModel from "../models/departements.model";
 import PersonnesModel from "../models/personnes.model";
 import QuartiersModel from "../models/quartiers.model";
 import RegionsModel from "../models/region.model";
@@ -109,4 +110,79 @@ export async function updatedPersonne(id: string, value: any) {
         }
     });
     return data;
+}
+
+
+export async function searchsFilter(filterOptions:any) {
+    let data:any;
+
+
+    if(filterOptions.regionId && filterOptions.departementId && filterOptions.communeId && filterOptions.quartierId){
+        data = await PersonnesModel.findAll({
+            include: {
+                model: RegionsModel,
+                include: [{
+                    model: DepartementsModel,
+                    include: [{
+                        model: CommunesModel,
+                        include: [{
+                            model: QuartiersModel,
+                            where: { id: filterOptions.quartierId }
+                        }]
+                    }]
+                }]
+            },
+            raw: true 
+        });
+        return data;
+
+    }
+    if(filterOptions.regionId && filterOptions.departementId && filterOptions.communeId){
+        console.log("communes")
+
+        data = await PersonnesModel.findAll({
+            include: {
+                model: RegionsModel,
+                include: [{
+                    model: DepartementsModel,
+                    include: [{
+                        model: CommunesModel,
+                        where: { id: filterOptions.communeId },
+                    }]
+                }]
+            },
+            raw: true 
+        });
+        return data;
+
+    }
+    if(filterOptions.regionId && filterOptions.departementId ){
+       console.log("departements")
+        data = await PersonnesModel.findAll({
+            include: {
+                model: RegionsModel,
+                include: [{
+                    model: DepartementsModel,
+                    where: { id: filterOptions.departementId },
+                }]
+            },
+            raw: true 
+        });
+        return data;
+
+    }
+    if(filterOptions.regionId ){
+        console.log("regions")
+
+        data = await PersonnesModel.findAll({
+            include: {
+                model: RegionsModel,
+                where: { id: filterOptions.regionId },
+              
+            },
+            raw: true 
+        });
+        return data;
+
+}
 }
