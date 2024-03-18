@@ -129,7 +129,7 @@ export async function searchsFilter(filterOptions:any) {
     let data:any;
 
 
-    if(filterOptions.regionId && filterOptions.departementId && filterOptions.communeId && filterOptions.quartierId){
+    if( filterOptions.quartierId){
         data = await PersonnesModel.findAll({
             include: {
                 model: RegionsModel,
@@ -149,7 +149,7 @@ export async function searchsFilter(filterOptions:any) {
         return data;
 
     }
-    if(filterOptions.regionId && filterOptions.departementId && filterOptions.communeId){
+    if(filterOptions.communeId){
         console.log("communes")
 
         data = await PersonnesModel.findAll({
@@ -168,7 +168,7 @@ export async function searchsFilter(filterOptions:any) {
         return data;
 
     }
-    if(filterOptions.regionId && filterOptions.departementId ){
+    if(filterOptions.departementId ){
        console.log("departements")
         data = await PersonnesModel.findAll({
             include: {
