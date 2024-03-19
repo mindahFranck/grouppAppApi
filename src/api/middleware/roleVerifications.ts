@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import RolesModel from "../models/roles.models";
 
 // Middleware de vérification du rôle
-const Role = require('../models/roles.models');
 const jwt= require("jsonwebtoken");
 var SECRET_Key = "sji49D9SU8FD09QN9fddn84S9N39D8S989Q9#eJF9Sddkszkxooos";
 
@@ -17,7 +17,7 @@ const checkRole = (roleName: any) => {
          userRole = decodedtoken.role;
        })
       // Recherchez le rôle dans la base de données
-      const role = await Role.findOne({ where: { name: userRole } });
+      const role = await RolesModel.findOne({ where: { libelle: userRole } });
 
     
       // Vérifiez si le rôle de l'utilisateur correspond au rôle requis

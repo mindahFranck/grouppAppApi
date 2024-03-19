@@ -3,6 +3,7 @@ import { Adduser,getUser, updateUser,deleteUser, getUserId,Login } from "../cont
 import validateResource from '../middleware/validateResource'
 import { createUserSchema, loginUserSchema } from "../schema/user.schema";
 const authentificationMiddleware = require("../middleware/authVerification");
+const checkRole = require("../middleware/roleVerifications");
 
 function users(app: Express){
   
@@ -17,7 +18,7 @@ function users(app: Express){
   *         200:
   *             description: all users
   */
- app.get('/api/users', authentificationMiddleware,getUser)
+ app.get('/api/users', authentificationMiddleware,checkRole(['administrateur']),getUser)
 
  
 
@@ -41,7 +42,7 @@ function users(app: Express){
   *         200:
   *             description: Get user by Id
   */
-  app.get('/api/users/:id',authentificationMiddleware, getUserId)
+  app.get('/api/users/:id',authentificationMiddleware,checkRole(['administrateur']), getUserId)
      /**
    * @swagger
    * '/api/users':
@@ -67,7 +68,7 @@ function users(app: Express){
    *      400:
    *        description: Bad request
    */
- app.post('/api/users', validateResource(createUserSchema), Adduser)
+ app.post('/api/users', authentificationMiddleware, validateResource(createUserSchema), Adduser)
       /**
    * @swagger
    * '/api/login/users':
@@ -93,7 +94,7 @@ function users(app: Express){
    *      400:
    *        description: Bad request
    */
-      app.post('/api/login/users', validateResource(loginUserSchema), Login)
+      app.post('/api/login/users',authentificationMiddleware, validateResource(loginUserSchema), Login)
      /**
    * @swagger
    * '/api/users/{id}':
@@ -127,7 +128,7 @@ function users(app: Express){
    *      400:
    *        description: Bad request
    */
-  app.put('/api/users/:id',authentificationMiddleware, updateUser)
+  app.put('/api/users/:id',authentificationMiddleware,checkRole(['administrateur']), updateUser)
  /**
   * @swagger
   * '/api/users/{id}':
@@ -146,7 +147,7 @@ function users(app: Express){
   *         200:
   *             description: Delete users
   */
- app.delete('/api/users/:id',authentificationMiddleware, deleteUser)
+ app.delete('/api/users/:id',authentificationMiddleware,checkRole(['administrateur']), deleteUser)
 
 }
 export default users;

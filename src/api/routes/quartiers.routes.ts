@@ -1,6 +1,7 @@
 import { Express } from "express";
 import { AddQuartier, deleteQuartier, getAllQuartier, getQuartierById, updateQuartier } from "../controller/quartiers.interface";
 const authentificationMiddleware = require("../middleware/authVerification");
+const checkRole = require("../middleware/roleVerifications");
 
 function quartiers(app: Express) {
 
@@ -15,7 +16,7 @@ function quartiers(app: Express) {
      *         200:
      *             description: all quartiers
      */
-    app.get('/api/quartiers',authentificationMiddleware, getAllQuartier)
+    app.get('/api/quartiers',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getAllQuartier)
 
     /**
     * @swagger
@@ -35,7 +36,7 @@ function quartiers(app: Express) {
     *         200:
     *             description: Get quartiers by Id
     */
-    app.get('/api/quartiers/:id',authentificationMiddleware, getQuartierById)
+    app.get('/api/quartiers/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getQuartierById)
 
     /**
       * @swagger
@@ -70,7 +71,7 @@ function quartiers(app: Express) {
       *      400:
       *        description: Bad request
       */
-    app.put('/api/quartiers/:id',authentificationMiddleware, updateQuartier)
+    app.put('/api/quartiers/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), updateQuartier)
     /**
 * @swagger
 * '/api/quartiers':
@@ -96,7 +97,7 @@ function quartiers(app: Express) {
 *      400:
 *        description: Bad request
 */
-    app.post('/api/quartiers',authentificationMiddleware, AddQuartier)
+    app.post('/api/quartiers',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), AddQuartier)
     /**
      * @swagger
      * '/api/quartiers/{id}':
@@ -115,7 +116,7 @@ function quartiers(app: Express) {
      *         200:
      *             description: Delete quartiers
      */
-    app.delete('/api/quartiers/:id',authentificationMiddleware, deleteQuartier)
+    app.delete('/api/quartiers/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), deleteQuartier)
 
 }
 export default quartiers;

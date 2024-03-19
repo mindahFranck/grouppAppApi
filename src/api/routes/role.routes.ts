@@ -1,6 +1,7 @@
 import { Express } from "express";
 import { AddRole, deleteRole, getAllRole, getRoleById, updateRole } from "../controller/role.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
+const checkRole = require("../middleware/roleVerifications");
 
 function role(app: Express) {
 
@@ -15,7 +16,7 @@ function role(app: Express) {
      *         200:
      *             description: all role
      */
-    app.get('/api/role',authentificationMiddleware, getAllRole)
+    app.get('/api/role',authentificationMiddleware,checkRole(['administrateur']), getAllRole)
 
     /**
     * @swagger
@@ -35,7 +36,7 @@ function role(app: Express) {
     *         200:
     *             description: Get role by Id
     */
-    app.get('/api/role/:id',authentificationMiddleware, getRoleById)
+    app.get('/api/role/:id',authentificationMiddleware,checkRole(['administrateur']), getRoleById)
 
     /**
       * @swagger
@@ -70,7 +71,7 @@ function role(app: Express) {
       *      400:
       *        description: Bad request
       */
-    app.put('/api/role/:id',authentificationMiddleware, updateRole)
+    app.put('/api/role/:id',authentificationMiddleware,checkRole(['administrateur']), updateRole)
     /**
 * @swagger
 * '/api/role':
@@ -96,7 +97,7 @@ function role(app: Express) {
 *      400:
 *        description: Bad request
 */
-    app.post('/api/role',authentificationMiddleware, AddRole)
+    app.post('/api/role',authentificationMiddleware,checkRole(['administrateur']), AddRole)
     /**
      * @swagger
      * '/api/role/{id}':
@@ -115,7 +116,7 @@ function role(app: Express) {
      *         200:
      *             description: Delete role
      */
-    app.delete('/api/role/:id',authentificationMiddleware, deleteRole)
+    app.delete('/api/role/:id',authentificationMiddleware,checkRole(['administrateur']), deleteRole)
 
 }
 export default role;

@@ -1,6 +1,7 @@
 import { Express } from "express";
 import { AddAvoir, deleteAvoir, getAllAvoir, getAllState, updateAvoir } from "../controller/avoirvulnerabilite.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
+const checkRole = require("../middleware/roleVerifications");
 
 function avoir(app: Express) {
 

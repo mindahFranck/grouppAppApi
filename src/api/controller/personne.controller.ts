@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { createPersonne, deletePersonneid, getPersonnebyId, getallPersonne, getallPersonneChefDeFamille, searchsFilter, updatedPersonne } from "../service/personne.service";
 import { createAvoir } from "../service/avoir.service";
+import VulnerabiliteModel from "../models/vulnerabilite.model";
 
 
 export async function AddPersonne(
@@ -83,7 +84,11 @@ export async function getPersonneById(
   let result = 0;
 
   getPersonnebyId(parseInt(req.params.id))
-    .then(function (Personne: any) {
+    .then(async function (Personne: any) {
+
+      const dateDeNaissance = new Date(Personne.date_naissance);
+      const age = calculerAge(dateDeNaissance);
+
       if(!Personne.is_cni){
         result ++;
       }
@@ -95,18 +100,48 @@ export async function getPersonneById(
         result ++;
 
       }
+      if(age <= 5 || age >= 60){
+        result ++;
 
-      if(!Personne.is_handicape && Personne?.avoirvulnerabilites.length){
+      }
+      
+      if(Personne.is_handicape && Personne?.avoirvulnerabilites.length > 0){
         result = result + 1 + Personne.avoirvulnerabilites.length;
 
       }
-      return res.status(201).json(Personne)
+      if(Personne.is_handicape == false && Personne?.avoirvulnerabilites.length > 0){
+        result = result + Personne.avoirvulnerabilites.length;
+
+      }
+      const vulnerabilite = await VulnerabiliteModel.count();
+
+
+      let value=( result/(vulnerabilite+5))*100
+      return res.status(201).json({"data":Personne, "pourcentage":value})
     })
     .catch(function (err) {
       return res.status(500).json({ 'error': "impossible de retouner la liste des Personnes" })
     })
 
 
+}
+function calculerAge(dateNaissance: Date): number {
+    const maintenant = new Date();
+    const anneeMaintenant = maintenant.getFullYear();
+    const moisMaintenant = maintenant.getMonth();
+    const jourMaintenant = maintenant.getDate();
+
+    const anneeNaissance = dateNaissance.getFullYear();
+    const moisNaissance = dateNaissance.getMonth();
+    const jourNaissance = dateNaissance.getDate();
+
+    let age = anneeMaintenant - anneeNaissance;
+
+    if (moisMaintenant < moisNaissance || (moisMaintenant === moisNaissance && jourMaintenant < jourNaissance)) {
+        age--;
+    }
+
+    return age;
 }
 
 

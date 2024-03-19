@@ -15,7 +15,7 @@ function vulnerabilite(app: Express) {
      *         200:
      *             description: all vulnerabilite
      */
-    app.get('/api/vulnerabilite',authentificationMiddleware, getAllVulnerabilite)
+    app.get('/api/vulnerabilite',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getAllVulnerabilite)
 
     /**
     * @swagger
@@ -35,7 +35,7 @@ function vulnerabilite(app: Express) {
     *         200:
     *             description: Get vulnerabilite by Id
     */
-    app.get('/api/vulnerabilite/:id',authentificationMiddleware, getVulnerabiliteById)
+    app.get('/api/vulnerabilite/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getVulnerabiliteById)
 
     /**
       * @swagger
@@ -70,7 +70,7 @@ function vulnerabilite(app: Express) {
       *      400:
       *        description: Bad request
       */
-    app.put('/api/vulnerabilite/:id',authentificationMiddleware, updateVulnerabilite)
+    app.put('/api/vulnerabilite/:id',authentificationMiddleware,checkRole(['administrateur','agents']), updateVulnerabilite)
     /**
 * @swagger
 * '/api/vulnerabilite':
@@ -96,7 +96,7 @@ function vulnerabilite(app: Express) {
 *      400:
 *        description: Bad request
 */
-    app.post('/api/vulnerabilite',authentificationMiddleware, AddVulnerabilite)
+    app.post('/api/vulnerabilite',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), AddVulnerabilite)
     /**
      * @swagger
      * '/api/vulnerabilite/{id}':
@@ -115,7 +115,7 @@ function vulnerabilite(app: Express) {
      *         200:
      *             description: Delete vulnerabilite
      */
-    app.delete('/api/vulnerabilite/:id',authentificationMiddleware, deleteVulnerabilite)
+    app.delete('/api/vulnerabilite/:id',authentificationMiddleware,checkRole(['administrateur', 'agents']), deleteVulnerabilite)
 
 }
 export default vulnerabilite;

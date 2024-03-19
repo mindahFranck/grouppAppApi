@@ -2,6 +2,7 @@ import { Express } from "express";
 import multer from 'multer';
 import { getAllRegions, getRegionsById, updateRegions, AddRegions, importRegions, deleteRegions } from "../controller/region.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
+const checkRole = require("../middleware/roleVerifications");
 
 const upload = multer();
 function regions(app: Express) {
@@ -17,7 +18,7 @@ function regions(app: Express) {
      *         200:
      *             description: all regions
      */
-    app.get('/api/regions', getAllRegions)
+    app.get('/api/regions',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getAllRegions)
 
 
     /**
@@ -38,7 +39,7 @@ function regions(app: Express) {
     *         200:
     *             description: Get regions by Id
     */
-    app.get('/api/regions/:id', getRegionsById)
+    app.get('/api/regions/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getRegionsById)
 
     /**
       * @swagger
@@ -73,7 +74,7 @@ function regions(app: Express) {
       *      400:
       *        description: Bad request
       */
-    app.put('/api/regions/:id', updateRegions)
+    app.put('/api/regions/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), updateRegions)
     /**
 * @swagger
 * '/api/regions':
@@ -99,7 +100,7 @@ function regions(app: Express) {
 *      400:
 *        description: Bad request
 */
-    app.post('/api/regions', AddRegions)
+    app.post('/api/regions',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), AddRegions)
 
 
 
@@ -138,7 +139,7 @@ function regions(app: Express) {
  *             example:
  *               error: Internal server error
  */
-app.post('/api/upload/regions',upload.single('file'), importRegions)
+app.post('/api/upload/regions',authentificationMiddleware, upload.single('file'), importRegions)
     /**
      * @swagger
      * '/api/regions/{id}':
@@ -157,7 +158,7 @@ app.post('/api/upload/regions',upload.single('file'), importRegions)
      *         200:
      *             description: Delete regions
      */
-    app.delete('/api/regions/:id', deleteRegions)
+    app.delete('/api/regions/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), deleteRegions)
 
 }
 export default regions;

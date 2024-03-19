@@ -2,6 +2,7 @@ import { Express } from "express";
 import multer from 'multer';
 import { getAllDepartements, getDepartementsById, updateDepartements, AddDepartements, importDepartements, deleteDepartements } from "../controller/departement.controller";
 const authentificationMiddleware = require("../middleware/authVerification");
+const checkRole = require("../middleware/roleVerifications");
 
 const upload = multer();
 function departements(app: Express) {
@@ -17,7 +18,7 @@ function departements(app: Express) {
      *         200:
      *             description: all departements
      */
-    app.get('/api/departements', getAllDepartements)
+    app.get('/api/departements',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getAllDepartements)
 
 
     /**
@@ -38,7 +39,7 @@ function departements(app: Express) {
     *         200:
     *             description: Get departements by Id
     */
-    app.get('/api/departements/:id', getDepartementsById)
+    app.get('/api/departements/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), getDepartementsById)
 
     /**
       * @swagger
@@ -73,7 +74,7 @@ function departements(app: Express) {
       *      400:
       *        description: Bad request
       */
-    app.put('/api/departements/:id', updateDepartements)
+    app.put('/api/departements/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), updateDepartements)
     /**
 * @swagger
 * '/api/departements':
@@ -99,7 +100,7 @@ function departements(app: Express) {
 *      400:
 *        description: Bad request
 */
-    app.post('/api/departements', AddDepartements)
+    app.post('/api/departements',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), AddDepartements)
 
 
 
@@ -157,7 +158,7 @@ app.post('/api/upload/departements',upload.single('file'), importDepartements)
      *         200:
      *             description: Delete departements
      */
-    app.delete('/api/departements/:id', deleteDepartements)
+    app.delete('/api/departements/:id',authentificationMiddleware,checkRole(['administrateur', 'organisation', 'agents','ong']), deleteDepartements)
 
 }
 export default departements;
